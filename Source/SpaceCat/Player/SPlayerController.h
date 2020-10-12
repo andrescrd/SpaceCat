@@ -33,4 +33,6 @@ public:
 
 	UPROPERTY(EditAnywhere)
 	bool bCanSpawn;
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<ASCharacter> CharacterClass;
 };
