@@ -13,5 +13,24 @@ UCLASS()
 class SPACECAT_API ASPlayerController : public APlayerController
 {
 	GENERATED_BODY()
-	
+
+public:
+	ASPlayerController();
+
+protected:
+
+	// Used for control multiple characters at same time
+	TArray<class ASCharacter *> Characters;
+	TArray<class ASPlayerController *> Controllers;
+
+	virtual void SetupInputComponent() override;
+	void MoveForward(float Value);
+	void MoveHorizontal(float Value);
+	void Grab();
+
+public:
+	virtual void BeginPlay() override;
+
+	UPROPERTY(EditAnywhere)
+	bool bCanSpawn;
 };
