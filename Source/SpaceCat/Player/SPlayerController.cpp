@@ -26,7 +26,7 @@ void ASPlayerController::BeginPlay()
             {
                 FTransform SpawnTransform = Targets[i]->GetActorTransform();
                 AActor *CharacterSpawned = UGameplayStatics::BeginDeferredActorSpawnFromClass(this, CharacterClass, SpawnTransform, ESpawnActorCollisionHandlingMethod ::AdjustIfPossibleButAlwaysSpawn);
-               AActor *ControllerSpawned = UGameplayStatics::BeginDeferredActorSpawnFromClass(this, ASPlayerController::StaticClass(), SpawnTransform);
+                AActor *ControllerSpawned = UGameplayStatics::BeginDeferredActorSpawnFromClass(this, ASPlayerController::StaticClass(), SpawnTransform);
 
                 CharacterSpawned->FinishSpawning(SpawnTransform);
                 Characters.Add(Cast<ASCharacter>(CharacterSpawned));
@@ -58,6 +58,10 @@ void ASPlayerController::MoveForward(float Value)
         for (int32 i = 0; i < Characters.Num(); i++)
             Characters[i]->MoveForward(Value);
     }
+    else
+    {
+        Cast<ASCharacter>(GetCharacter())->MoveForward(Value);
+    }
 }
 
 void ASPlayerController::MoveHorizontal(float Value)
@@ -67,6 +71,10 @@ void ASPlayerController::MoveHorizontal(float Value)
         for (int32 i = 0; i < Characters.Num(); i++)
             Characters[i]->MoveHorizontal(Value);
     }
+    else
+    {
+        Cast<ASCharacter>(GetCharacter())->MoveHorizontal(Value);
+    }
 }
 
 void ASPlayerController::Grab()
@@ -75,5 +83,9 @@ void ASPlayerController::Grab()
     {
         for (int32 i = 0; i < Characters.Num(); i++)
             Characters[i]->Grab();
+    }
+    else
+    {
+        Cast<ASCharacter>(GetCharacter())->Grab();
     }
 }
