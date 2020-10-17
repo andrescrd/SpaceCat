@@ -4,7 +4,7 @@
 #include "Components/InputComponent.h"
 #include "SpaceCat/Characters/SCharacter.h"
 #include "Kismet/GameplayStatics.h"
-#include "Engine/TargetPoint.h"
+#include "SpaceCat/Interfaces/SControllable.h"
 
 ASPlayerController::ASPlayerController()
 {
@@ -26,15 +26,19 @@ void ASPlayerController::SetupInputComponent()
 
 void ASPlayerController::MoveForward(float Value)
 {
-    Cast<ASCharacter>(GetCharacter())->MoveForward(Value);
+
+    if (GetCharacter()->Implements<USControllable>())
+        Cast<ISControllable>(GetCharacter())->MoveForward(Value);
 }
 
 void ASPlayerController::MoveHorizontal(float Value)
 {
-    Cast<ASCharacter>(GetCharacter())->MoveHorizontal(Value);
+    if (GetCharacter()->Implements<USControllable>())
+        Cast<ISControllable>(GetCharacter())->MoveHorizontal(Value);
 }
 
 void ASPlayerController::Grab()
 {
-    Cast<ASCharacter>(GetCharacter())->Grab();
+    if (GetCharacter()->Implements<USControllable>())
+        Cast<ISControllable>(GetCharacter())->Grab();
 }

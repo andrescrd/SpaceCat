@@ -21,6 +21,10 @@ ASCharacter::ASCharacter()
 	CameraComp = CreateDefaultSubobject<UCameraComponent>(TEXT("CameraComp"));
 	CameraComp->SetupAttachment(SpringComp, USpringArmComponent::SocketName);
 
+	GetCharacterMovement()->bConstrainToPlane = true;
+	GetCharacterMovement()->SetPlaneConstraintAxisSetting(EPlaneConstraintAxisSetting::Z);
+	GetCharacterMovement()->DefaultLandMovementMode = EMovementMode::MOVE_Flying;
+
 	PrimaryActorTick.bCanEverTick = true;
 }
 
