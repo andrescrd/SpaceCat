@@ -5,9 +5,22 @@
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Engine.h"
+
 // Sets default values
 ASCharacter::ASCharacter()
 {
+	SpringComp = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringComp"));
+	SpringComp->SetupAttachment(RootComponent);
+	SpringComp->bEnableCameraLag = true;
+	SpringComp->bEnableCameraRotationLag = true;
+	SpringComp->CameraLagSpeed = 3.f;
+	SpringComp->CameraRotationLagSpeed = 3.f;
+	SpringComp->bDoCollisionTest = false;
+	SpringComp->TargetArmLength = 1000.f;
+
+	CameraComp = CreateDefaultSubobject<UCameraComponent>(TEXT("CameraComp"));
+	CameraComp->SetupAttachment(SpringComp, USpringArmComponent::SocketName);
+
 	PrimaryActorTick.bCanEverTick = true;
 }
 

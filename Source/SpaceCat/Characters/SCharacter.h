@@ -4,10 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "SpaceCat/Interfaces/SControllable.h"
 #include "SCharacter.generated.h"
 
 UCLASS()
-class SPACECAT_API ASCharacter : public ACharacter
+class SPACECAT_API ASCharacter : public ACharacter, public ISControllable
 {
 	GENERATED_BODY()
 
@@ -16,14 +17,18 @@ public:
 	ASCharacter();
 
 protected:
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	class UCameraComponent *CameraComp;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	class USpringArmComponent *SpringComp;
+
 	virtual void BeginPlay() override;
 
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	void MoveForward(float Value);
-	void MoveHorizontal(float Value);
-	void Grab();
-
+	virtual void MoveForward(float Value) override;
+	virtual void MoveHorizontal(float Value) override;
+	virtual void Grab() override;
 };
