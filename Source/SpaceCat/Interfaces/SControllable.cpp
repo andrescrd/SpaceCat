@@ -19,3 +19,8 @@ void ISControllable::Grab()
 {
     
 }
+
+void ISControllable::Ship() 
+{
+    
+}

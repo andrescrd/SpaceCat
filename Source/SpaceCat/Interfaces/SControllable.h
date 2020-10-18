@@ -7,7 +7,7 @@
 #include "SControllable.generated.h"
 
 // This class does not need to be modified.
-UINTERFACE(MinimalAPI, BlueprintType)
+UINTERFACE(MinimalAPI, Blueprintable)
 class USControllable : public UInterface
 {
 	GENERATED_BODY()
@@ -25,4 +25,5 @@ public:
 	virtual void MoveForward(float Value);
 	virtual void MoveHorizontal(float Value);
 	virtual void Grab();
+	virtual void Ship();
 };
