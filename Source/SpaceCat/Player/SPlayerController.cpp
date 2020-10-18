@@ -22,6 +22,7 @@ void ASPlayerController::SetupInputComponent()
     InputComponent->BindAxis("Forward", this, &ASPlayerController::MoveForward);
     InputComponent->BindAxis("Horizontal", this, &ASPlayerController::MoveHorizontal);
     InputComponent->BindAction("Grab", EInputEvent::IE_Pressed, this, &ASPlayerController::Grab);
+    InputComponent->BindAction("Ship", EInputEvent::IE_Pressed, this, &ASPlayerController::Ship);
 }
 
 void ASPlayerController::MoveForward(float Value)
@@ -41,4 +42,10 @@ void ASPlayerController::Grab()
 {
     if (GetCharacter()->Implements<USControllable>())
         Cast<ISControllable>(GetCharacter())->Grab();
+}
+
+void ASPlayerController::Ship()
+{
+    if (GetCharacter()->Implements<USControllable>())
+        Cast<ISControllable>(GetCharacter())->Ship();
 }

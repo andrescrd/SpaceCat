@@ -19,9 +19,11 @@ public:
 
 protected:
 	virtual void SetupInputComponent() override;
+	
 	void MoveForward(float Value);
 	void MoveHorizontal(float Value);
 	void Grab();
+	void Ship();
 
 public:
 	virtual void BeginPlay() override;
