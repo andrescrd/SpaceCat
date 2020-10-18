@@ -2,5 +2,3 @@
 
 
 #include "SInteractable.h"
-
-// Add default functionality here for any ISInteractable functions that are not pure virtual.
