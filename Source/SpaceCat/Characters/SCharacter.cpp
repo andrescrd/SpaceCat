@@ -30,22 +30,15 @@ ASCharacter::ASCharacter()
 	PrimaryActorTick.bCanEverTick = true;
 }
 
-// Called when the game starts or when spawned
 void ASCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 }
 
-// Called every frame
 void ASCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 }
-
-// void ASCharacter::SetupPlayerInputComponent(UInputComponent *PlayerInputComponent)
-// {
-// 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-// }
 
 void ASCharacter::MoveForward(float Value)
 {
@@ -61,5 +54,40 @@ void ASCharacter::MoveHorizontal(float Value)
 
 void ASCharacter::Grab()
 {
-	GEngine->AddOnScreenDebugMessage(0, 5.f, FColor::Red, FString::Printf(TEXT("Grab")));
+	GEngine->AddOnScreenDebugMessage(0, 3.f, FColor::Green, FString::Printf(TEXT("Take something")));
+}
+
+void ASCharacter::Ship()
+{
+	if (CurrentInteractableActor != nullptr && CurrentInteractableActor->Implements<USInteractable>())
+	{
+		bIsMount = true;
+		SetActorEnableCollision(false);
+		ISInteractable::Execute_StartIntaraction(CurrentInteractableActor, this);
+	}
+	else
+	{
+		bIsMount = false;
+		SetActorEnableCollision(true);
+	}
+}
+
+void ASCharacter::NotifyActorBeginOverlap(AActor *OtherActor)
+{
+	if (OtherActor && OtherActor->Implements<USInteractable>() && !bIsMount)
+		CurrentInteractableActor = OtherActor;
+}
+
+void ASCharacter::NotifyActorEndOverlap(AActor *OtherActor)
+{
+	if (CurrentInteractableActor && CurrentInteractableActor->Implements<USInteractable>() && !bIsMount)
+		CurrentInteractableActor = nullptr;
+}
+
+void ASCharacter::StartIntaraction_Implementation(class AActor *CurrentActor)
+{
+}
+
+void ASCharacter::StopIntaraction_Implementation()
+{
 }
