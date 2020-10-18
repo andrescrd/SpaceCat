@@ -24,6 +24,12 @@ class SPACECAT_API ISInteractable
 public:
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)	
+		void Activate(class AActor* Activator);
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)	
+		void Deactivate(class AActor* Activator);
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)	
 		void StartIntaraction(class AActor *CurrentActor);
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)	
