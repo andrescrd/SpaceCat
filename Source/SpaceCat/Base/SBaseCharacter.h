@@ -4,10 +4,12 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "SpaceCat/Interfaces/SControllable.h"
+#include "SpaceCat/Interfaces/SInteractable.h"
 #include "SBaseCharacter.generated.h"
 
-UCLASS()
-class SPACECAT_API ASBaseCharacter : public ACharacter
+UCLASS(Abstract)
+class SPACECAT_API ASBaseCharacter : public ACharacter, public ISControllable
 {
 	GENERATED_BODY()
 
@@ -16,14 +18,21 @@ public:
 	ASBaseCharacter();
 
 protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	class AActor *CurrentInteractableActor;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	class UCameraComponent *CameraComp;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	class USpringArmComponent *SpringComp;
 
 public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+	virtual void NotifyActorBeginOverlap(AActor *OtherActor) override;
+	virtual void NotifyActorEndOverlap(AActor *OtherActor) override;
 
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	virtual void MoveForward(float Value) override;
+	virtual void MoveHorizontal(float Value) override;
 
+	virtual void Grab() override;
+	virtual void Ship() override;
 };

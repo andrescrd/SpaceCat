@@ -1,34 +1,66 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "SBaseCharacter.h"
+#include "Components/InputComponent.h"
+#include "Camera/CameraComponent.h"
+#include "GameFramework/SpringArmComponent.h"
+#include "Engine.h"
 
-// Sets default values
 ASBaseCharacter::ASBaseCharacter()
 {
- 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+	SpringComp = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringComp"));
+	SpringComp->SetupAttachment(RootComponent);
+	SpringComp->bEnableCameraLag = true;
+	SpringComp->bEnableCameraRotationLag = true;
+	SpringComp->CameraLagSpeed = 3.f;
+	SpringComp->CameraRotationLagSpeed = 3.f;
+	SpringComp->bDoCollisionTest = false;
+	SpringComp->TargetArmLength = 1000.f;
 
+	CameraComp = CreateDefaultSubobject<UCameraComponent>(TEXT("CameraComp"));
+	CameraComp->SetupAttachment(SpringComp, USpringArmComponent::SocketName);
+
+	GetCharacterMovement()->bConstrainToPlane = true;
+	GetCharacterMovement()->SetPlaneConstraintAxisSetting(EPlaneConstraintAxisSetting::Z);
+	GetCharacterMovement()->DefaultLandMovementMode = EMovementMode::MOVE_Flying;
 }
 
-// Called when the game starts or when spawned
-void ASBaseCharacter::BeginPlay()
+void ASBaseCharacter::MoveForward(float Value)
 {
-	Super::BeginPlay();
+	FVector Forward = GetActorForwardVector();
+	AddMovementInput(Forward, Value, false);
+}
+
+void ASBaseCharacter::MoveHorizontal(float Value)
+{
+	FVector Right = GetActorRightVector();
+	AddMovementInput(Right, Value, false);
+}
+
+void ASBaseCharacter::Grab() 
+{
 	
 }
 
-// Called every frame
-void ASBaseCharacter::Tick(float DeltaTime)
+void ASBaseCharacter::Ship() 
 {
-	Super::Tick(DeltaTime);
-
+	
 }
 
-// Called to bind functionality to input
-void ASBaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+void ASBaseCharacter::NotifyActorBeginOverlap(AActor *OtherActor)
 {
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
+	if (OtherActor && OtherActor != this && OtherActor->Implements<USInteractable>())
+	{
+		CurrentInteractableActor = OtherActor;
+		ISInteractable::Execute_Activate(OtherActor, this);
+	}
 }
 
+void ASBaseCharacter::NotifyActorEndOverlap(AActor *OtherActor)
+{
+	if (CurrentInteractableActor && OtherActor == CurrentInteractableActor && CurrentInteractableActor->Implements<USInteractable>())
+	{
+		ISInteractable::Execute_Deactivate(OtherActor, this);
+		CurrentInteractableActor = nullptr;
+	}
+}
