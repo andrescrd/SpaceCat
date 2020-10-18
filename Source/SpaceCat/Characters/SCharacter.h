@@ -31,4 +31,7 @@ public:
 	virtual void MoveForward(float Value) override;
 	virtual void MoveHorizontal(float Value) override;
 	virtual void Grab() override;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	bool bIsMount;
 };

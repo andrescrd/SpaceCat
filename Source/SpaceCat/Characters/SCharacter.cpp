@@ -9,6 +9,8 @@
 // Sets default values
 ASCharacter::ASCharacter()
 {
+	bIsMount = false;
+
 	SpringComp = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringComp"));
 	SpringComp->SetupAttachment(RootComponent);
 	SpringComp->bEnableCameraLag = true;
