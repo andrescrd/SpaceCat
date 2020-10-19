@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "SShip.h"
+#include "SpaceCat/Interfaces/SControllable.h"
 
 // Sets default values
 ASShip::ASShip()
@@ -23,6 +24,22 @@ void ASShip::Tick(float DeltaTime)
 
 void ASShip::Grab()
 {
+}
+
+void ASShip::Ship() 
+{
+	if(ActivatoreActor && ActivatoreActor->Implements<USControllable>())
+		Cast<ISControllable>(ActivatoreActor)->Ship();
+}
+
+void ASShip::SetActivatorActor_Implementation(class AActor *Activator)
+{
+	ActivatoreActor = Activator;
+}
+
+class AActor *ASShip::GetActivatorActor_Implementation()
+{
+	return ActivatoreActor;
 }
 
 void ASShip::StartIntaraction_Implementation(class AActor *CurrentActor)

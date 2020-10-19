@@ -21,15 +21,17 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	virtual void Grab() override;
+	virtual void Ship() override;
 
 	virtual void StartIntaraction_Implementation(class AActor *CurrentActor) override;
 	virtual void StopIntaraction_Implementation() override;
-	virtual	void Activate_Implementation(class AActor* Activator) override;
-	virtual	void Deactivate_Implementation(class AActor* Activator) override;
-
+	virtual void Activate_Implementation(class AActor *Activator) override;
+	virtual void Deactivate_Implementation(class AActor *Activator) override;
+	virtual void SetActivatorActor_Implementation(class AActor *Activator) override;
+	virtual class AActor *GetActivatorActor_Implementation() override;
 };
