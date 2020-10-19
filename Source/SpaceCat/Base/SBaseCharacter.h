@@ -20,6 +20,8 @@ public:
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	class AActor *CurrentInteractableActor;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	class AActor *ActivatoreActor;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	class UCameraComponent *CameraComp;
