@@ -35,14 +35,17 @@ void ASCharacter::Ship()
 		if (!bIsMount)
 		{
 			ISInteractable::Execute_StartIntaraction(CurrentInteractableActor, this);
+			ISInteractable::Execute_SetActivatorActor(CurrentInteractableActor, this);
 			bIsMount = true;
-			// SetActorEnableCollision(false);
+
+			GetCapsuleComponent()->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Overlap);
 		}
 		else
 		{
 			ISInteractable::Execute_StopIntaraction(CurrentInteractableActor);
 			bIsMount = false;
-			// SetActorEnableCollision(true);
+			GetCapsuleComponent()->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Block);
+			GetCapsuleComponent()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Visibility, ECollisionResponse::ECR_Ignore);
 		}
 	}
 }

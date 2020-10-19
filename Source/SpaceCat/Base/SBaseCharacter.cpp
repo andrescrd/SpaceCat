@@ -58,9 +58,9 @@ void ASBaseCharacter::NotifyActorBeginOverlap(AActor *OtherActor)
 
 void ASBaseCharacter::NotifyActorEndOverlap(AActor *OtherActor)
 {
-	if (CurrentInteractableActor && OtherActor == CurrentInteractableActor && CurrentInteractableActor->Implements<USInteractable>())
+	if (OtherActor && OtherActor != this && OtherActor ==  CurrentInteractableActor)
 	{
-		ISInteractable::Execute_Deactivate(OtherActor, this);
-		CurrentInteractableActor = nullptr;
+			ISInteractable::Execute_Deactivate(OtherActor, this);
+			CurrentInteractableActor = nullptr;
 	}
 }
