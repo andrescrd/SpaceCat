@@ -4,10 +4,12 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "SpaceCat/Interfaces/SInteractable.h"
+#include "SpaceCat/Base/SBaseCharacter.h"
 #include "SShip.generated.h"
 
 UCLASS()
-class SPACECAT_API ASShip : public ACharacter
+class SPACECAT_API ASShip : public ASBaseCharacter, public ISInteractable
 {
 	GENERATED_BODY()
 
@@ -23,7 +25,11 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	virtual void Grab() override;
+
+	virtual void StartIntaraction_Implementation(class AActor *CurrentActor) override;
+	virtual void StopIntaraction_Implementation() override;
+	virtual	void Activate_Implementation(class AActor* Activator) override;
+	virtual	void Deactivate_Implementation(class AActor* Activator) override;
 
 };
