@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "SpaceCat/Interfaces/SControllable.h"
 #include "SpaceCat/Interfaces/SInteractable.h"
+#include "SpaceCat/Interfaces/SPickable.h"
 #include "SBaseCharacter.generated.h"
 
 UCLASS(Abstract)
@@ -20,6 +21,8 @@ public:
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	class AActor *CurrentInteractableActor;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	class AActor *CurrentPickedActor;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	class AActor *ActivatoreActor;
 
