@@ -21,8 +21,12 @@ public:
 protected:	
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	bool bIsMount;
+	bool bIsPicking;
 
 	virtual void BeginPlay() override;
+
+	void DoInteraction(class AActor *InteractableActor);
+	void StopInteraction(class AActor *InteractableActor);
 
 public:
 	virtual void Tick(float DeltaTime) override;

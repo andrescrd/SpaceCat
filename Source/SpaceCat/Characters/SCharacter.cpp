@@ -11,6 +11,7 @@
 ASCharacter::ASCharacter()
 {
 	bIsMount = false;
+	bIsPicking = false;
 	PrimaryActorTick.bCanEverTick = true;
 }
 
@@ -26,7 +27,7 @@ void ASCharacter::Tick(float DeltaTime)
 
 void ASCharacter::Grab()
 {
-	if (CurrentInteractableActor != nullptr && CurrentInteractableActor->Implements<USInteractable>() && !CurrentInteractableActor->IsA(ASShip::StaticClass()) && !bIsMount)
+	if (CurrentPickedActor != nullptr && CurrentPickedActor->Implements<USInteractable>() && !bIsPicking)
 	{
 		GEngine->AddOnScreenDebugMessage(0, 3.f, FColor::Green, FString::Printf(TEXT("Take something")));
 	}
@@ -34,22 +35,39 @@ void ASCharacter::Grab()
 
 void ASCharacter::Ship()
 {
-	if (CurrentInteractableActor != nullptr && CurrentInteractableActor->Implements<USInteractable>() && CurrentInteractableActor->IsA(ASShip::StaticClass()))
+	if (CurrentInteractableActor != nullptr && CurrentInteractableActor->Implements<USInteractable>())
 	{
-		if (!bIsMount)
+		if (CurrentInteractableActor->IsA(ASShip::StaticClass()))
 		{
-			ISInteractable::Execute_StartIntaraction(CurrentInteractableActor, this);
-			ISInteractable::Execute_SetActivatorActor(CurrentInteractableActor, this);
-			bIsMount = true;
+			if (!bIsMount)
+			{
 
-			GetCapsuleComponent()->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Overlap);
+				DoInteraction(CurrentInteractableActor);
+				bIsMount = true;
+				GetCapsuleComponent()->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Overlap);
+			}
+			else
+			{
+				StopInteraction(CurrentInteractableActor);
+				bIsMount = false;
+				GetCapsuleComponent()->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Block);
+				GetCapsuleComponent()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Visibility, ECollisionResponse::ECR_Ignore);
+			}
 		}
 		else
 		{
-			ISInteractable::Execute_StopIntaraction(CurrentInteractableActor);
-			bIsMount = false;
-			GetCapsuleComponent()->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Block);
-			GetCapsuleComponent()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Visibility, ECollisionResponse::ECR_Ignore);
+			DoInteraction(CurrentInteractableActor);
 		}
 	}
+}
+
+void ASCharacter::DoInteraction(AActor *InteractableActor)
+{
+	ISInteractable::Execute_StartIntaraction(InteractableActor, this);
+	ISInteractable::Execute_SetActivatorActor(InteractableActor, this);
+}
+
+void ASCharacter::StopInteraction(class AActor *InteractableActor)
+{
+	ISInteractable::Execute_StopIntaraction(InteractableActor);
 }
