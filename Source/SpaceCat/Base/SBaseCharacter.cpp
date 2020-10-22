@@ -55,7 +55,7 @@ void ASBaseCharacter::NotifyActorBeginOverlap(AActor *OtherActor)
 		ISInteractable::Execute_Activate(OtherActor, this);
 	}
 
-	if (OtherActor && OtherActor != this && OtherActor->Implements<USPickable>())
+	if CurrentPickedActor == nullptr && (OtherActor && OtherActor != this && OtherActor->Implements<USPickable>())
 	{
 		CurrentPickedActor = OtherActor;
 		ISPickable::Execute_Activate(OtherActor, this);

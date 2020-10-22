@@ -29,13 +29,15 @@ void ASCharacter::Grab()
 {
 	if (CurrentPickedActor != nullptr && CurrentPickedActor->Implements<USPickable>())
 	{
-		if (bIsPicking)
+		if (!bIsPicking)
 		{
 			ISPickable::Execute_Picked(CurrentPickedActor, this);
+			bIsPicking = true;
 		}
 		else
 		{
 			ISPickable::Execute_Drop(CurrentPickedActor, this);
+			bIsPicking = false;
 		}
 	}
 }
