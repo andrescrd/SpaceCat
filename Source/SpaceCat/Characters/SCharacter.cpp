@@ -27,9 +27,16 @@ void ASCharacter::Tick(float DeltaTime)
 
 void ASCharacter::Grab()
 {
-	if (CurrentPickedActor != nullptr && CurrentPickedActor->Implements<USInteractable>() && !bIsPicking)
+	if (CurrentPickedActor != nullptr && CurrentPickedActor->Implements<USPickable>())
 	{
-		GEngine->AddOnScreenDebugMessage(0, 3.f, FColor::Green, FString::Printf(TEXT("Take something")));
+		if (bIsPicking)
+		{
+			ISPickable::Execute_Picked(CurrentPickedActor, this);
+		}
+		else
+		{
+			ISPickable::Execute_Drop(CurrentPickedActor, this);
+		}
 	}
 }
 
