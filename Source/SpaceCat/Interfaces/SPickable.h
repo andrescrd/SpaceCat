@@ -22,4 +22,21 @@ class SPACECAT_API ISPickable
 
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	void SetActivatorActor(class AActor *Activator);
+	
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	class AActor *GetActivatorActor();
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	void Activate(class AActor *Activator);
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	void Deactivate(class AActor *Activator);
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	void Picked(class AActor *CurrentActor);
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	void Drop();
 };
