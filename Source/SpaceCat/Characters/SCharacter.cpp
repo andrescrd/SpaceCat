@@ -4,6 +4,7 @@
 #include "Components/InputComponent.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "SpaceCat/Characters/SShip.h"
 #include "Engine.h"
 
 // Sets default values
@@ -25,12 +26,15 @@ void ASCharacter::Tick(float DeltaTime)
 
 void ASCharacter::Grab()
 {
-	GEngine->AddOnScreenDebugMessage(0, 3.f, FColor::Green, FString::Printf(TEXT("Take something")));
+	if (CurrentInteractableActor != nullptr && CurrentInteractableActor->Implements<USInteractable>() && !CurrentInteractableActor->IsA(ASShip::StaticClass()) && !bIsMount)
+	{
+		GEngine->AddOnScreenDebugMessage(0, 3.f, FColor::Green, FString::Printf(TEXT("Take something")));
+	}
 }
 
 void ASCharacter::Ship()
 {
-	if (CurrentInteractableActor != nullptr && CurrentInteractableActor->Implements<USInteractable>())
+	if (CurrentInteractableActor != nullptr && CurrentInteractableActor->Implements<USInteractable>() && CurrentInteractableActor->IsA(ASShip::StaticClass()))
 	{
 		if (!bIsMount)
 		{
