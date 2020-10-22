@@ -49,7 +49,7 @@ void ASBaseCharacter::Ship()
 
 void ASBaseCharacter::NotifyActorBeginOverlap(AActor *OtherActor)
 {
-	if (OtherActor && OtherActor != this && OtherActor->Implements<USInteractable>())
+	if (CurrentInteractableActor == nullptr && OtherActor && OtherActor != this && OtherActor->Implements<USInteractable>())
 	{
 		CurrentInteractableActor = OtherActor;
 		ISInteractable::Execute_Activate(OtherActor, this);
